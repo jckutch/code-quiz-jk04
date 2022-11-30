@@ -14,16 +14,21 @@
             <h1>Code Quiz</h1><br>
             <h2>Test your Coding Knowledge</h2>
         </div>
-        <div id="highScoreDiv">
-            <a class="textHighScore" id="highScoreLink" href="http://">View High Scores</a>
+        <div id="highScore">
+            <a class="textHighScore" id="highScoreStore" href="http://">View High Scores</a>
         </div>
     </header>
     <main id="mainSection">
         <div id="timerDiv">
-            <p class="textTime" id="timeText">Time: <span id="timeCounter">30</span></p>
+            <p class="textTime" id="timeText">Time: <span id="totalTime">45</span></p>
         </div>
-        <div id="startDiv" class="startBtn">
-            <button class="btnStartEnd" id="startGame">Start Quiz</button>
+        <div id="questionsContainer">
+            <div class="containerQuestions">
+                <div id="question"></div>
+            </div>
+        </div>
+        <div id="startGame" class="startBtn">
+            <button class="btnStartEnd" id="startGameBtn">Start Quiz</button>
         </div>
     </main>
     <footer>
