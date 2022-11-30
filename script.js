@@ -3,13 +3,17 @@ var startGameEl = document.querySelector("#startGame");
 var startBtnEl = document.querySelector("#startGameBtn");
 var timeCounterEl = document.querySelector("#totalTime");
 var questionEl = document.querySelector("#question");
-var questionSiteEl = document.querySelector("#questionsContainer");
+var questSiteEl = document.querySelector("#questContainer");
 var highScoreEl = document.querySelector("#highScore");
 var highScoreStoreEl = doument.querySelector("#highScoreStore");
 
 // creates timer for game
 var timer = 45
+
 var timerSet
+var questList = 0
+var answerAll = false
+var answeredQuest = 0 
 
 function startTimer() {
     timerSet = setInterval(function() {
@@ -69,7 +73,7 @@ var questions = [{
         answer: "Direct Object Modifier",
         isTrue: false,
     }, {
-        answer: "Dominate Origin Main",
+        answer: "Dominate Original Main",
         isTrue: false,
     }]
 }, {
@@ -84,9 +88,27 @@ var questions = [{
     }, {
         answer: "strings",
         isTrue: false,
-    },
-    {
+    }, {
         answer: "all of the above",
         isTrue: true,
     }]
 }]
+
+function showQuestion() {
+    var displayQuest = questions[questList];
+    h1El.textContent = displayQuest.title;
+   questSiteEl.textContent = displayQuest.question;
+for (var i = 0; i < displayQuest.choices.length; i++) {
+    var choiceBtn = document.createElement('button');
+    if (displayQuest.choices[i].isTrue) {
+        choiceBtn.classList.add('thisOne')
+    } else {
+        choiceBtn.classList.add('notThis')
+    }
+    choiceBtn.classList.add('buttons')
+    choiceBtn.classList.add('whiteText')
+    choiceBtn.textContent = displayQuest.choices[i].answer
+    buttonsArea.appendChild(choiceBtn);
+}
+questList++
+}
