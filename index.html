@@ -6,16 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Coding Quiz</title>
+    <title>Code Quiz</title>
 </head>
 <body>
-    <header id="header">
-        <div class="title">
-            <h1>Code Quiz</h1><br>
-            <h2>Test your Coding Knowledge</h2>
+    <header>
+        <div id="high-score">
+            <a id="high-score-bank" href="http://">View High Scores</a>
         </div>
-        <div id="highScore">
-            <a class="textHighScore" id="highScoreStore" href="http://">View High Scores</a>
+        <div id="timer">
+            <p id="timer-label">Time: <span id="timer-total">45</span></p>
         </div>
     </header>
     <main id="mainSection">
@@ -27,7 +26,7 @@
                 <div id="question"></div>
             </div>
         </div>
-        <div id="startGame" class="startBtn">
+        <div id="startGame" id="buttonSite" class="startBtn">
             <button class="btnStartEnd" id="startGameBtn">Start Quiz</button>
         </div>
     </main>
