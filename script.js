@@ -15,8 +15,8 @@ var timer = 45
 
 var timerSet
 var questList = 0
-var answerAll = false
-var answeredQuest = 0 
+var AnsweredQuest = 0
+var answeredAll = false
 
 function startTimer() {
     timerSet = setInterval(function() {
@@ -38,14 +38,14 @@ var questions = [{
         answer: "call function",
         isTrue: false,
     }, {
-        answer: "function",
-        isTrue: false,
+        answer: "function()",
+        isTrue: true,
     }, {
         answer: "var function",
         isTrue: false,
     }, {
-        answer: "function()",
-        isTrue: true,
+        answer: "function",
+        isTrue: false,
     }]
 }, {
     questionNum: "Question 2",
