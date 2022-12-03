@@ -1,18 +1,16 @@
 // variable elements
-var startGameEl = document.querySelector("#startGame");
-var startBtnEl = document.querySelector("#startGameBtn");
-var timeCounterEl = document.querySelector("#totalTime");
-var questionEl = document.querySelector("#question");
-var questSiteEl = document.querySelector("#questContainer");
-var buttonSiteEl = document.querySelector("#buttonsDiv")
-var highScoreEl = document.querySelector("#highScore");
-var highScoreStoreEl = doument.querySelector("#highScoreStore");
+var startBtnEl = document.querySelector("#start-btn");
+var timerEl = document.querySelector("#timer-total");
+var buttonsArea = document.querySelector("#buttons");
+var gameLabelEl = document.querySelector("#game-label");
+var questionsLabelEl = document.querySelector("#questions-label");
+var questionsEl = document.querySelector("#questions");
+var highScoreEl = document.querySelector("#high-score");
+var highScoreBtnEl = document.querySelector("#high-score-bank");
 
-startBtnEl.addEventListener('mouseup', startGame);
 
 // creates timer for game
 var timer = 45
-
 var timerSet
 var questList = 0
 var AnsweredQuest = 0
@@ -97,41 +95,41 @@ var questions = [{
     }]
 }]
 
-function showQuest() {
-    var displayQuest = questions[questList];
-    h1El.textContent = displayQuest.title;
-   questSiteEl.textContent = displayQuest.question;
-for (var i = 0; i < displayQuest.choices.length; i++) {
-    var choiceBtn = document.createElement('button');
-    if (displayQuest.choices[i].isTrue) {
-        choiceBtn.classList.add('thisOne')
-    } else {
-        choiceBtn.classList.add('notThis')
-    }
-    choiceBtn.classList.add('buttons')
-    choiceBtn.classList.add('whiteText')
-    choiceBtn.textContent = displayQuest.choices[i].answer
-    buttonSiteEl.appendChild(choiceBtn);
+function displayQuestion() {
+    var questionToDisplay = questions[questList];
+    gameLabelEl.textContent = questionToDisplay.questionNum;
+    questionsLabelEl.textContent = questionToDisplay.question;
+    for (var i = 0; i < questionToDisplay.choices.length; i++) {
+        var choiceBtn = document.createElement('button');
+        if (questionToDisplay.choices[i].isTrue) {
+            choiceBtn.classList.add('thisOne')
+        } else {
+            choiceBtn.classList.add('notThis')
+        }
+        choiceBtn.classList.add('buttons')
+        choiceBtn.classList.add('start-label')
+        choiceBtn.textContent = questionToDisplay.choices[i].answer
+        buttonsArea.appendChild(choiceBtn);
 }
 questList++
 }
 
 function startGame() {
     // if we've already completed the game and there are more than 1 children in the questionsAreaDiv
-    if (questionAreaDiv.childElementCount > 1){
+    if (questionsEl.childElementCount > 1){
         // we remove the form
-        questionAreaDiv.removeChild(formHighScore)
+        questionsEl.removeChild(formHighScore)
     }
     // otherwise we remove the start button which we know is there.
     while (buttonsArea.firstChild){
         buttonsArea.removeChild(buttonsArea.firstChild)
     }
-    while (highScoreArea.firstChild){
-        highScoreArea.removeChild(highScoreArea.firstChild)
+    while (highScoreEl.firstChild){
+        highScoreEl.removeChild(highScoreEl.firstChild)
     }
     timer = 45
-    questionList = 0
+    questList = 0
     startTimer();
-    showQuest();
+    displayQuestion();
     return
 }
