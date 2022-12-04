@@ -1,7 +1,7 @@
 // variable elements
 var startBtnEl = document.querySelector("#start-btn");
 var timerEl = document.querySelector("#timer-total");
-var buttonsArea = document.querySelector("#buttons");
+var buttonsEl = document.querySelector("#buttons");
 var gameLabelEl = document.querySelector("#game-label");
 var questionsLabelEl = document.querySelector("#questions-label");
 var questionsEl = document.querySelector("#questions");
@@ -15,18 +15,6 @@ var timerSet
 var questList = 0
 var AnsweredQuest = 0
 var answeredAll = false
-
-function startTimer() {
-    timerSet = setInterval(function() {
-        if (timer > 0) {
-        timer--
-        } else {
-            clearInterval(timerSet)
-            endGame();
-        }
-        totalCounter.textContent = timer;
-    }, 450);
-}
 
 // game questions
 var questions = [{
@@ -95,6 +83,37 @@ var questions = [{
     }]
 }]
 
+function startTimer() {
+    timerSet = setInterval(function() {
+        if (timer > 0) {
+        timer--
+        } else {
+            clearInterval(timerSet)
+            endGame();
+        }
+        totalCounter.textContent = timer;
+    }, 450);
+}
+
+function startGame() {
+    if (questionsEl.childElementCount > 1){
+        questionsEl.removeChild(formHighScore)
+    }
+    while (buttonsEl.firstChild){
+        buttonsEl.removeChild(buttonsEl.firstChild)
+    }
+    while (highScoreEl.firstChild){
+        highScoreEl.removeChild(highScoreEl.firstChild)
+    }
+    timer = 45
+    questList = 0
+    startTimer();
+    displayQuestion();
+    return
+}
+
+startBtnEl.addEventListener('mouseup', startGame);
+
 function displayQuestion() {
     var questionToDisplay = questions[questList];
     gameLabelEl.textContent = questionToDisplay.questionNum;
@@ -109,27 +128,90 @@ function displayQuestion() {
         choiceBtn.classList.add('buttons')
         choiceBtn.classList.add('start-label')
         choiceBtn.textContent = questionToDisplay.choices[i].answer
-        buttonsArea.appendChild(choiceBtn);
-}
-questList++
+        buttonsEl.appendChild(choiceBtn);
+    }
+    questList++
 }
 
-function startGame() {
-    // if we've already completed the game and there are more than 1 children in the questionsAreaDiv
-    if (questionsEl.childElementCount > 1){
-        // we remove the form
-        questionsEl.removeChild(formHighScore)
+buttonsEl.addEventListener('mouseup', function (event) {
+    if (event.target.matches(".thisOne")) {
+        if (questList < questions.length) {
+            while (buttonsEl.firstChild) {
+                buttonsEl.removeChild(buttonsEl.firstChild);
+            }
+            displayQuestion();
+        } else {
+            endGame();
+        }
+    } else if (event.target.matches(".notThis")) {
+        timer = timer - 10
+        event.target.classList.add("incorrect")
     }
-    // otherwise we remove the start button which we know is there.
-    while (buttonsArea.firstChild){
-        buttonsArea.removeChild(buttonsArea.firstChild)
+})
+
+function endGame() {
+    clearInterval(timerSet);
+    timerEl.textContent = timer
+    gameLabelEl.textContent = "Your score is : " + timer
+    if (timer <= 0) {
+        timerEl.textContent = 0
+        questionsLabelEl.textContent = "Sorry, you lose :("
+    } else {
+        questionsLabelEl.textContent = "Congratulations!"
+        questionsEl.appendChild(formHighScore)
     }
-    while (highScoreEl.firstChild){
-        highScoreEl.removeChild(highScoreEl.firstChild)
+    console.log("That's all folks")
+    while (buttonsEl.firstChild) {
+        buttonsEl.removeChild(buttonsEl.firstChild);
     }
-    timer = 45
-    questList = 0
-    startTimer();
-    displayQuestion();
-    return
+    buttonsEl.appendChild(startBtnEl)
 }
+
+// High Score Vairiables
+var highScore = []
+var pushThisHighScore
+var score
+var scoreStringified
+var scoreParsed
+var initials
+
+var formHighScore = document.createElement('form')
+var inputHighScore = document.createElement('input')
+inputHighScore.setAttribute("type", "text")
+inputHighScore.setAttribute("id", "initials")
+var enterHighScore = document.createElement('input')
+enterHighScore.setAttribute("type", "submit")
+enterHighScore.setAttribute("value", "Submit Your Initials")
+enterHighScore.setAttribute('class','buttons')
+enterHighScore.classList.add('start-label')
+enterHighScore.setAttribute("id","submitBtn")
+formHighScore.appendChild(inputHighScore)
+formHighScore.appendChild(enterHighScore)
+
+enterHighScore.addEventListener('click', function(event){
+    event.preventDefault();
+    console.log("It's defaulting");
+    initials = inputHighScore.value.trim();
+    score = initials.toUpperCase() + ": " + timer;
+    highScore.push(score);
+    scoreStringified = JSON.stringify(highScore);
+    console.log(scoreStringified);
+    questionsEl.removeChild(formHighScore);
+    localStorage.setItem("highScore",scoreStringified)
+    highScoreEl.appendChild(highScoreBtnEl)
+})
+
+highScoreBtnEl.addEventListener('click', function (event) {
+    event.preventDefault();
+    displayHighScore();
+    
+})
+
+function init(){
+    scoreParsed = JSON.parse(localStorage.getItem('highScore'));
+    if (scoreParsed !== null){
+        highScore = scoreParsed
+    }
+    console.log(JSON.stringify(scoreParsed))
+}
+init();
