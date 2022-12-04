@@ -9,7 +9,7 @@ var highScoreEl = document.querySelector("#high-score");
 var highScoreBtnEl = document.querySelector("#high-score-bank");
 
 
-// creates timer for game
+// variables for game timer
 var timer = 45
 var timerSet
 var questList = 0
@@ -83,17 +83,26 @@ var questions = [{
     }]
 }]
 
-function startTimer() {
-    timerSet = setInterval(function() {
-        if (timer > 0) {
-        timer--
-        } else {
-            clearInterval(timerSet)
-            endGame();
-        }
-        totalCounter.textContent = timer;
-    }, 450);
-}
+// High Score Vairiables
+var highScore = []
+var pushThisHighScore
+var score
+var scoreStringified
+var scoreParsed
+var initials
+
+var formHighScore = document.createElement('form')
+var inputHighScore = document.createElement('input')
+inputHighScore.setAttribute("type", "text")
+inputHighScore.setAttribute("id", "initials")
+var enterHighScore = document.createElement('input')
+enterHighScore.setAttribute("type", "submit")
+enterHighScore.setAttribute("value", "Submit Your Initials")
+enterHighScore.setAttribute('class','buttons')
+enterHighScore.classList.add('start-label')
+enterHighScore.setAttribute("id","submitBtn")
+formHighScore.appendChild(inputHighScore)
+formHighScore.appendChild(enterHighScore)
 
 function startGame() {
     if (questionsEl.childElementCount > 1){
@@ -113,6 +122,18 @@ function startGame() {
 }
 
 startBtnEl.addEventListener('mouseup', startGame);
+
+function startTimer() {
+    timerSet = setInterval(function () {
+        if (timer > 0) {
+            timer--
+        } else {
+            clearInterval(timerSet)
+            endGame();
+        }
+        timerEl.textContent = timer;
+    }, 1000);
+}
 
 function displayQuestion() {
     var questionToDisplay = questions[questList];
@@ -144,7 +165,7 @@ buttonsEl.addEventListener('mouseup', function (event) {
             endGame();
         }
     } else if (event.target.matches(".notThis")) {
-        timer = timer - 10
+        timer = timer - 5
         event.target.classList.add("incorrect")
     }
 })
@@ -167,26 +188,20 @@ function endGame() {
     buttonsEl.appendChild(startBtnEl)
 }
 
-// High Score Vairiables
-var highScore = []
-var pushThisHighScore
-var score
-var scoreStringified
-var scoreParsed
-var initials
-
-var formHighScore = document.createElement('form')
-var inputHighScore = document.createElement('input')
-inputHighScore.setAttribute("type", "text")
-inputHighScore.setAttribute("id", "initials")
-var enterHighScore = document.createElement('input')
-enterHighScore.setAttribute("type", "submit")
-enterHighScore.setAttribute("value", "Submit Your Initials")
-enterHighScore.setAttribute('class','buttons')
-enterHighScore.classList.add('start-label')
-enterHighScore.setAttribute("id","submitBtn")
-formHighScore.appendChild(inputHighScore)
-formHighScore.appendChild(enterHighScore)
+function displayHighScore(){
+    highScoreEl.removeChild(highScoreBtnEl)
+    highScoreEl.appendChild(startBtnEl)
+    while (buttonsEl.firstChild) {
+        buttonsEl.removeChild(buttonsEl.firstChild);
+    }
+    gameLabelEl.textContent = "High Scores"
+    questionsLabelEl.textContent = "View scores below"
+    for (i = 0; i < highScore.length; i++){
+        var scoresEl = document.createElement('h2')
+        scoresEl.textContent = highScore[i];
+        buttonsEl.appendChild(scoresEl)
+    }
+}
 
 enterHighScore.addEventListener('click', function(event){
     event.preventDefault();
