@@ -104,6 +104,9 @@ enterHighScore.setAttribute("id","submitBtn")
 formHighScore.appendChild(inputHighScore)
 formHighScore.appendChild(enterHighScore)
 
+// start of code to play game
+startBtnEl.addEventListener('mouseup', startGame);
+
 function startGame() {
     if (questionsEl.childElementCount > 1){
         questionsEl.removeChild(formHighScore)
@@ -120,8 +123,6 @@ function startGame() {
     displayQuestion();
     return
 }
-
-startBtnEl.addEventListener('mouseup', startGame);
 
 function startTimer() {
     timerSet = setInterval(function () {
@@ -154,6 +155,7 @@ function displayQuestion() {
     questList++
 }
 
+// listener for questions
 buttonsEl.addEventListener('mouseup', function (event) {
     if (event.target.matches(".thisOne")) {
         if (questList < questions.length) {
@@ -188,6 +190,7 @@ function endGame() {
     buttonsEl.appendChild(startBtnEl)
 }
 
+// code to store and display high scores
 function displayHighScore(){
     highScoreEl.removeChild(highScoreBtnEl)
     highScoreEl.appendChild(startBtnEl)

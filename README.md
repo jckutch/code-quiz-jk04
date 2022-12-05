@@ -28,7 +28,7 @@ THEN I can save my initials and my score
 ## Mock-Up
 
 The following shows the application:
-![portfolio-image](./assests/code-quiz-jk04.jpeg)
+![quiz-image](./assets/code%20quiz%20mockup.jpeg)
 
 ## Website
 
